@@ -15,13 +15,19 @@ namespace AuthApi.service
     {
         private IMongoCollection<UserModel> _UserCollection;
         private readonly AppSettings _applicationSettings;
+        private readonly TokenValidationParameters _tokenValidationParams;
 
-        public MongoDBUserService(IOptions<MongoDBSettings> MongoDBSettings, IOptions<AppSettings> _applicationSettings)
+        public MongoDBUserService(
+            IOptions<MongoDBSettings> MongoDBSettings,
+            IOptions<AppSettings> _applicationSettings,
+            TokenValidationParameters tokenValidationParams
+        )
         {
             var client = new MongoClient(MongoDBSettings.Value.ConnectionURL);
             var database = client.GetDatabase(MongoDBSettings.Value.DatabaseName);
             _UserCollection = database.GetCollection<UserModel>(MongoDBSettings.Value.CollectionName);
             this._applicationSettings = _applicationSettings.Value;
+            _tokenValidationParams = tokenValidationParams;
         }
 
         public async Task<List<UserModel>> GetItem()
@@ -79,7 +85,19 @@ namespace AuthApi.service
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var encrypterToken = tokenHandler.WriteToken(token);
-            return new { token = encrypterToken };
+
+            var refreshToken = new RefreshToken()
+            {
+                JwtId = token.Id,
+                IsUsed = false,
+                IsRevorked = false,
+                UserId = results[0].Id,
+                AddedDate = DateTime.UtcNow,
+                ExpiryDate = DateTime.UtcNow.AddMonths(6),
+                Token = RandomString(35) + Guid.NewGuid()
+            };
+
+            return new { token = encrypterToken, RefreshToken = refreshToken.Token };
         }
         private bool CheckPassword(string password, UserModel results)
         {
@@ -92,6 +110,61 @@ namespace AuthApi.service
             }
 
             return result;
+        }
+        private string RandomString(int length)
+        {
+            var random = new Random();
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(x => x[random.Next(x.Length)]).ToArray());
+        }
+
+        public async Task<object> RefreshTokenUser(TokenRequest reqTokenRequest)
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+
+            try
+            {
+                _tokenValidationParams.ValidateLifetime = false;
+                var tokenInVerification = jwtTokenHandler.ValidateToken(reqTokenRequest.Token, _tokenValidationParams, out var validatedToken);
+                _tokenValidationParams.ValidateLifetime = true;
+
+                if (validatedToken is JwtSecurityToken jwtSecurityToken)
+                {
+                    var result = jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha512, StringComparison.InvariantCultureIgnoreCase);
+
+                    if (result == false)
+                    {
+                        return null;
+                    }
+                }
+                return await GenerateJwtToken(dbUser);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("Lifetime validation failed. The token is expired."))
+                {
+
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                            "Token has expired please re-login"
+                        }
+                    };
+
+                }
+                else
+                {
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                            "Something went wrong."
+                        }
+                    };
+                }
+            }
         }
     }
 }
