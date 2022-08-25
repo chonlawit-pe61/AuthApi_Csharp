@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1tLZ2kHWm/kbfQLU27AgTWupWzplnPOmNc7poeaCPWdgwzlojYYHevHbTBaznC3K6BdKoAXjtEvn10u9ScR43A==",
+  "dgSpecHash": "KVcfqdtI0JMAKRuFKP8CsweqoDk/Og6LqmCfVFw67ZY/t6pM3TbWiEA+DC7/HBd4fHx9Z4UE5vjN/CB0L7saHA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\DSITS\\Desktop\\AuthApi\\AuthApi.csproj",
+  "projectFilePath": "C:\\Users\\DSITS\\Desktop\\AuthApi_Csharp\\AuthApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DSITS\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
     "C:\\Users\\DSITS\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.8\\microsoft.aspnetcore.authentication.jwtbearer.6.0.8.nupkg.sha512",

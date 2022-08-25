@@ -1,4 +1,3 @@
-using System.Xml.Linq;
 using AuthApi.models;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
@@ -15,19 +14,15 @@ namespace AuthApi.service
     {
         private IMongoCollection<UserModel> _UserCollection;
         private readonly AppSettings _applicationSettings;
-        private readonly TokenValidationParameters _tokenValidationParams;
-
         public MongoDBUserService(
             IOptions<MongoDBSettings> MongoDBSettings,
-            IOptions<AppSettings> _applicationSettings,
-            TokenValidationParameters tokenValidationParams
+            IOptions<AppSettings> _applicationSettings
         )
         {
             var client = new MongoClient(MongoDBSettings.Value.ConnectionURL);
             var database = client.GetDatabase(MongoDBSettings.Value.DatabaseName);
             _UserCollection = database.GetCollection<UserModel>(MongoDBSettings.Value.CollectionName);
             this._applicationSettings = _applicationSettings.Value;
-            _tokenValidationParams = tokenValidationParams;
         }
 
         public async Task<List<UserModel>> GetItem()
@@ -48,7 +43,6 @@ namespace AuthApi.service
                     NewUser.PasswordSalt = hmac.Key;
                     NewUser.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(userRegister.password));
                 }
-
                 _UserCollection.InsertOne(NewUser);
                 return NewUser;
             }
@@ -78,7 +72,7 @@ namespace AuthApi.service
             {
                 Subject = new ClaimsIdentity(new[] {
                     new Claim("id", results[0].username),
-                    new Claim(ClaimTypes.Role, "Admin")
+                    new Claim(ClaimTypes.Role, results[0].Role)
                     }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
@@ -117,54 +111,6 @@ namespace AuthApi.service
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length)
                 .Select(x => x[random.Next(x.Length)]).ToArray());
-        }
-
-        public async Task<object> RefreshTokenUser(TokenRequest reqTokenRequest)
-        {
-            var jwtTokenHandler = new JwtSecurityTokenHandler();
-
-            try
-            {
-                _tokenValidationParams.ValidateLifetime = false;
-                var tokenInVerification = jwtTokenHandler.ValidateToken(reqTokenRequest.Token, _tokenValidationParams, out var validatedToken);
-                _tokenValidationParams.ValidateLifetime = true;
-
-                if (validatedToken is JwtSecurityToken jwtSecurityToken)
-                {
-                    var result = jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha512, StringComparison.InvariantCultureIgnoreCase);
-
-                    if (result == false)
-                    {
-                        return null;
-                    }
-                }
-                return await GenerateJwtToken(dbUser);
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message.Contains("Lifetime validation failed. The token is expired."))
-                {
-
-                    return new AuthResult()
-                    {
-                        Success = false,
-                        Errors = new List<string>() {
-                            "Token has expired please re-login"
-                        }
-                    };
-
-                }
-                else
-                {
-                    return new AuthResult()
-                    {
-                        Success = false,
-                        Errors = new List<string>() {
-                            "Something went wrong."
-                        }
-                    };
-                }
-            }
         }
     }
 }

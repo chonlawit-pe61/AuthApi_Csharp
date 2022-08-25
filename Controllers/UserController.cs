@@ -32,10 +32,6 @@ namespace AuthApi.Controllers
         {
             return await _userService.LoginUser(reqUserLogin);
         }
-        [HttpPost("RefreshToken")]
-        public async Task<object> RefreshToken([FromBody] TokenRequest reqTokenRequest)
-        {
-            return await _userService.RefreshTokenUser(reqTokenRequest);
-        }
+        
     }
 }

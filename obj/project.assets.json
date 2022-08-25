@@ -2302,11 +2302,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\DSITS\\Desktop\\AuthApi\\AuthApi.csproj",
+      "projectUniqueName": "C:\\Users\\DSITS\\Desktop\\AuthApi_Csharp\\AuthApi.csproj",
       "projectName": "AuthApi",
-      "projectPath": "C:\\Users\\DSITS\\Desktop\\AuthApi\\AuthApi.csproj",
+      "projectPath": "C:\\Users\\DSITS\\Desktop\\AuthApi_Csharp\\AuthApi.csproj",
       "packagesPath": "C:\\Users\\DSITS\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\DSITS\\Desktop\\AuthApi\\obj\\",
+      "outputPath": "C:\\Users\\DSITS\\Desktop\\AuthApi_Csharp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
