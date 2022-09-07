@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "rzYkCrUcgnUV7DzARXYV9uh+1712FajB2X30Rm1USVU=",
+  "Hash": "L3lJlmsRavSiIsT50kFbGdIvCVpYcojKPTGu2GF//rA=",
   "Source": "AuthApi",
   "BasePath": "_content/AuthApi",
   "Mode": "Default",
@@ -32,6 +32,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Uploads\\Product\\4ec4f2d69c9bc6b152abcb420252c3a8.jpg\\image.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\DSITS\\Desktop\\BlogIMG\\AuthApi_Csharp\\wwwroot\\Uploads\\Product\\download.jpg\\image.jpg",
+      "SourceId": "AuthApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\DSITS\\Desktop\\BlogIMG\\AuthApi_Csharp\\wwwroot\\",
+      "BasePath": "_content/AuthApi",
+      "RelativePath": "Uploads/Product/download.jpg/image.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\Product\\download.jpg\\image.jpg"
     }
   ]
 }

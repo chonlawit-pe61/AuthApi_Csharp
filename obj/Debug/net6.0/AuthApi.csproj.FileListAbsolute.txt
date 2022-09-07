@@ -161,3 +161,5 @@ C:\Users\DSITS\Desktop\BlogIMG\AuthApi_Csharp\obj\Debug\net6.0\AuthApi.pdb
 C:\Users\DSITS\Desktop\BlogIMG\AuthApi_Csharp\obj\Debug\net6.0\AuthApi.genruntimeconfig.cache
 C:\Users\DSITS\Desktop\BlogIMG\AuthApi_Csharp\obj\Debug\net6.0\ref\AuthApi.dll
 C:\Users\DSITS\Desktop\BlogIMG\AuthApi_Csharp\bin\Debug\net6.0\AuthApi.staticwebassets.runtime.json
+C:\Users\DSITS\Desktop\BlogIMG\AuthApi_Csharp\bin\Debug\net6.0\GlitchedPolygons.Services.JwtService.dll
+C:\Users\DSITS\Desktop\BlogIMG\AuthApi_Csharp\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll

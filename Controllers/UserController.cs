@@ -1,9 +1,12 @@
 using AuthApi.models;
 using AuthApi.service;
+using AuthApi_Csharp.models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthApi.Controllers
 {
+
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : Controller
@@ -31,6 +34,13 @@ namespace AuthApi.Controllers
         public async Task<object> Login([FromBody] UserLogin reqUserLogin)
         {
             return await _userService.LoginUser(reqUserLogin);
+        }
+        [HttpGet("GetMe")]
+        public Task<object> AdminsAndSellersEndpoint(string reqJwt)
+        {
+            var currentUser = _userService.GetCurrentUser(reqJwt);
+
+            return currentUser;
         }
 
     }

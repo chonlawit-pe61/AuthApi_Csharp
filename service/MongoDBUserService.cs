@@ -8,6 +8,8 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
+using AuthApi_Csharp.models;
+using GlitchedPolygons.Services.JwtService;
 
 namespace AuthApi.service
 {
@@ -20,6 +22,8 @@ namespace AuthApi.service
             IOptions<MongoDBSettings> MongoDBSettings,
             IOptions<AppSettings> _applicationSettings,
             IWebHostEnvironment webHostEnvironment
+
+
         )
         {
             var client = new MongoClient(MongoDBSettings.Value.ConnectionURL);
@@ -84,10 +88,13 @@ namespace AuthApi.service
             var key = Encoding.UTF8.GetBytes(this._applicationSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] {
-                    new Claim("id", results[0].username),
-                    new Claim(ClaimTypes.Role, results[0].Role)
-                    }),
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim("id", results[0].Id),
+                    new Claim(ClaimTypes.Role, results[0].Role),
+                    new Claim(ClaimTypes.Email, results[0].username),
+                    new Claim("UserData", results[0].username + " " +results[0].lname),
+                }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
             };
@@ -172,5 +179,43 @@ namespace AuthApi.service
             return this._environment.WebRootPath + "\\uploads\\Product\\" + ProductCode;
         }
 
+        public async Task<object> GetCurrentUser(string reqJWT)
+        {
+            if (reqJWT == null)
+            {
+                return null;
+            }
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(this._applicationSettings.Secret);
+
+            try
+            {
+
+                tokenHandler.ValidateToken(reqJWT, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                    ClockSkew = TimeSpan.Zero
+                }, out SecurityToken validatedToken);
+
+                var jwtToken = (JwtSecurityToken)validatedToken;
+                var userData = jwtToken.Claims.First(x => x.Type == "UserData").Value;
+                var userId = jwtToken.Claims.First(x => x.Type == "id").Value;
+                // return user id from JWT token if validation successful
+                return new
+                {
+                    id = userId,
+                    Data = userData
+                };
+            }
+            catch
+            {
+                // return null if validation fails
+                return null;
+            }
+        }
     }
 }
