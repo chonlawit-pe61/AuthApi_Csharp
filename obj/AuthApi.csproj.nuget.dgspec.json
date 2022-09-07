@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DSITS\\Desktop\\AuthApi_Csharp\\AuthApi.csproj": {}
+    "C:\\Users\\DSITS\\Desktop\\BlogIMG\\AuthApi_Csharp\\AuthApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DSITS\\Desktop\\AuthApi_Csharp\\AuthApi.csproj": {
+    "C:\\Users\\DSITS\\Desktop\\BlogIMG\\AuthApi_Csharp\\AuthApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DSITS\\Desktop\\AuthApi_Csharp\\AuthApi.csproj",
+        "projectUniqueName": "C:\\Users\\DSITS\\Desktop\\BlogIMG\\AuthApi_Csharp\\AuthApi.csproj",
         "projectName": "AuthApi",
-        "projectPath": "C:\\Users\\DSITS\\Desktop\\AuthApi_Csharp\\AuthApi.csproj",
+        "projectPath": "C:\\Users\\DSITS\\Desktop\\BlogIMG\\AuthApi_Csharp\\AuthApi.csproj",
         "packagesPath": "C:\\Users\\DSITS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DSITS\\Desktop\\AuthApi_Csharp\\obj\\",
+        "outputPath": "C:\\Users\\DSITS\\Desktop\\BlogIMG\\AuthApi_Csharp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -71,7 +71,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -83,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

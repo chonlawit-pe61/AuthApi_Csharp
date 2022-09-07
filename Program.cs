@@ -66,7 +66,8 @@ builder.Services.AddSingleton<MongoDBUserService>();
 
 builder.Services.AddCors(c =>
 {
-    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    c.AddPolicy("AllowOrigin", options =>
+    options.WithOrigins("http://localhost:3000").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
 var app = builder.Build();
@@ -82,9 +83,9 @@ if (app.Environment.IsDevelopment())
 
     });
 }
-
+app.UseCors("AllowOrigin");
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 

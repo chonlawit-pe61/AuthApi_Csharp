@@ -14,6 +14,8 @@ namespace AuthApi.models
         public string name { get; set; } = string.Empty;
         [Required]
         public string lname { get; set; } = string.Empty;
-        
+
+        [Required]
+        public IFormFile file { get; set; }
     }
 }

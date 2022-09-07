@@ -22,7 +22,7 @@ namespace AuthApi.Controllers
         }
 
         [HttpPost("CreateUser")]
-        public async Task<object> Register([FromBody] UserRegister userRegister)
+        public async Task<object> Register([FromForm] UserRegister userRegister)
         {
             return await _userService.RegisterUser(userRegister);
         }
@@ -32,6 +32,6 @@ namespace AuthApi.Controllers
         {
             return await _userService.LoginUser(reqUserLogin);
         }
-        
+
     }
 }

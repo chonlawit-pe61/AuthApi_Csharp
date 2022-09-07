@@ -15,6 +15,7 @@ namespace AuthApi.models
         public string name { get; set; } = string.Empty;
         public string lname { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
+        public string imageName { get; set; }
 
     }
 

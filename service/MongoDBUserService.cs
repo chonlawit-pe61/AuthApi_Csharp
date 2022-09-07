@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AuthApi.service
 {
@@ -14,30 +15,43 @@ namespace AuthApi.service
     {
         private IMongoCollection<UserModel> _UserCollection;
         private readonly AppSettings _applicationSettings;
+        private readonly IWebHostEnvironment _environment;
         public MongoDBUserService(
             IOptions<MongoDBSettings> MongoDBSettings,
-            IOptions<AppSettings> _applicationSettings
+            IOptions<AppSettings> _applicationSettings,
+            IWebHostEnvironment webHostEnvironment
         )
         {
             var client = new MongoClient(MongoDBSettings.Value.ConnectionURL);
             var database = client.GetDatabase(MongoDBSettings.Value.DatabaseName);
             _UserCollection = database.GetCollection<UserModel>(MongoDBSettings.Value.CollectionName);
             this._applicationSettings = _applicationSettings.Value;
+            this._environment = webHostEnvironment;
         }
 
         public async Task<List<UserModel>> GetItem()
         {
-            return await _UserCollection.Find(new BsonDocument()).ToListAsync();
+            var Data = await _UserCollection.Find(new BsonDocument()).ToListAsync();
+            if (Data != null && Data.Count > 0)
+            {
+                Data.ForEach(item =>
+            {
+                item.imageName = GetImagebyProduct(item.imageName);
+            });
+            }
+            return Data;
         }
 
         public async Task<object> RegisterUser(UserRegister userRegister)
         {
             // var results = _UserCollection.Find(emp => emp.username == userRegister.username);
+            byte[] b;
             var filter = Builders<UserModel>.Filter.Eq(c => c.username, userRegister.username);
             var results = await _UserCollection.Find(filter).ToListAsync();
             if (results.Count == 0)
             {
-                var NewUser = new UserModel { username = userRegister.username, name = userRegister.name, lname = userRegister.lname, Role = userRegister.Role };
+                var DataimageName = SaveImg(userRegister.file);
+                var NewUser = new UserModel { username = userRegister.username, name = userRegister.name, lname = userRegister.lname, Role = userRegister.Role, imageName = DataimageName };
                 using (HMACSHA512? hmac = new HMACSHA512())
                 {
                     NewUser.PasswordSalt = hmac.Key;
@@ -112,5 +126,51 @@ namespace AuthApi.service
             return new string(Enumerable.Repeat(chars, length)
                 .Select(x => x[random.Next(x.Length)]).ToArray());
         }
+        private string SaveImg(IFormFile imageFile)
+        {
+            string Filename = imageFile.FileName;
+            var imagePath = GetFilePath(Filename);
+            if (!System.IO.Directory.Exists(imagePath))
+            {
+                System.IO.Directory.CreateDirectory(imagePath);
+            }
+
+            string imagepath = imagePath + "\\image.jpg";
+
+            if (System.IO.File.Exists(imagepath))
+            {
+                System.IO.File.Delete(imagepath);
+            }
+            using (FileStream stream = System.IO.File.Create(imagepath))
+            {
+                imageFile.CopyToAsync(stream);
+            }
+            return Filename;
+        }
+        [NonAction]
+        private string GetImagebyProduct(string productcode)
+        {
+            string ImageUrl = string.Empty;
+            string HostUrl = "https://localhost:7045/";
+            string Filepath = GetFilePath(productcode);
+            string Imagepath = Filepath + "\\image.jpg";
+            if (!System.IO.File.Exists(Imagepath))
+            {
+                ImageUrl = HostUrl + "/uploads/common/noimage.jpg";
+            }
+            else
+            {
+                ImageUrl = HostUrl + "/uploads/Product/" + productcode + "/image.jpg";
+            }
+            return ImageUrl;
+
+        }
+
+        [NonAction]
+        private string GetFilePath(string ProductCode)
+        {
+            return this._environment.WebRootPath + "\\uploads\\Product\\" + ProductCode;
+        }
+
     }
 }
