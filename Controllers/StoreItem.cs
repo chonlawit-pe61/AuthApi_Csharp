@@ -1,11 +1,8 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-namespace AuthApi.Controllers
+namespace AuthApi_Csharp.Controllers
 {
-    [Authorize(Roles = "Admin")]
     [ApiController]
-    public class ItemsController : Controller
+    public class StoreItem : Controller
     {
         public List<string> colorList = new List<string>() { "blue", "red", "green", "yellow", "pink" };
 

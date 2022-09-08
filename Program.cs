@@ -2,6 +2,7 @@ using System.Text;
 using AuthApi;
 using AuthApi.models;
 using AuthApi.service;
+using AuthApi_Csharp.service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -64,6 +65,8 @@ builder.Services.AddAuthentication(x =>
 
 builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB_User"));
 builder.Services.AddSingleton<MongoDBUserService>();
+builder.Services.Configure<MongoDB_Book>(builder.Configuration.GetSection("MongoDB_Book"));
+builder.Services.AddSingleton<MongoDBBookStore>();
 
 builder.Services.AddCors(c =>
 {

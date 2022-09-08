@@ -15,7 +15,9 @@ namespace AuthApi.models
         [Required]
         public string lname { get; set; } = string.Empty;
 
-        [Required]
-        public IFormFile file { get; set; }
+        // Wait for img User
+        // [Required]
+        // public IFormFile file { get; set; }
+
     }
 }

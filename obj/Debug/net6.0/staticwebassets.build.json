@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "L3lJlmsRavSiIsT50kFbGdIvCVpYcojKPTGu2GF//rA=",
+  "Hash": "QQq1w5CaW6fnDn7Imr2GTxUSmuskbfV1sliGLjpEIOA=",
   "Source": "AuthApi",
   "BasePath": "_content/AuthApi",
   "Mode": "Default",
@@ -34,6 +34,23 @@
       "OriginalItemSpec": "wwwroot\\Uploads\\Product\\4ec4f2d69c9bc6b152abcb420252c3a8.jpg\\image.jpg"
     },
     {
+      "Identity": "C:\\Users\\DSITS\\Desktop\\BlogIMG\\AuthApi_Csharp\\wwwroot\\Uploads\\Product\\50-The-Witcher-เล่ม-3-2-Timeline-16-1317x800.jpg\\image.jpg",
+      "SourceId": "AuthApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\DSITS\\Desktop\\BlogIMG\\AuthApi_Csharp\\wwwroot\\",
+      "BasePath": "_content/AuthApi",
+      "RelativePath": "Uploads/Product/50-The-Witcher-เล่ม-3-2-Timeline-16-1317x800.jpg/image.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\Product\\50-The-Witcher-เล่ม-3-2-Timeline-16-1317x800.jpg\\image.jpg"
+    },
+    {
       "Identity": "C:\\Users\\DSITS\\Desktop\\BlogIMG\\AuthApi_Csharp\\wwwroot\\Uploads\\Product\\download.jpg\\image.jpg",
       "SourceId": "AuthApi",
       "SourceType": "Discovered",
@@ -49,6 +66,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Uploads\\Product\\download.jpg\\image.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\DSITS\\Desktop\\BlogIMG\\AuthApi_Csharp\\wwwroot\\Uploads\\Product\\image.jpg",
+      "SourceId": "AuthApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\DSITS\\Desktop\\BlogIMG\\AuthApi_Csharp\\wwwroot\\",
+      "BasePath": "_content/AuthApi",
+      "RelativePath": "Uploads/Product/image.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\Product\\image.jpg"
     }
   ]
 }
